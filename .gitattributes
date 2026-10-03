@@ -1,0 +1,4 @@
+* text=auto eol=lf
+*.mp3 -text
+*.m4a -text
+*.wav -text
