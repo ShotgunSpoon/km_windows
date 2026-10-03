@@ -24,8 +24,10 @@ from km_version import VERSION
 
 try:
     import prism
-    _voice = None if "--self-test" in sys.argv or os.environ.get("KM_SELF_TEST") == "1" else prism.Context().create_best()
+    _voice_context = None if "--self-test" in sys.argv or os.environ.get("KM_SELF_TEST") == "1" else prism.Context()
+    _voice = _voice_context.create_best() if _voice_context else None
 except Exception:            # no screen reader / prism missing: the window still works
+    _voice_context = None
     _voice = None
 
 BORDER = 10
@@ -375,6 +377,7 @@ class KMFrame(wx.Frame):
             wx.CallAfter(self._bot_done)
 
     def on_close(self, event):
+        global _voice, _voice_context
         if self.bot_running and event.CanVeto():
             self.close_after_bot = True
             self.bot_stop.set()
@@ -392,6 +395,9 @@ class KMFrame(wx.Frame):
         self.audio.close()
         self.q.put(None)
         self.worker.join(1)
+        stop_speech()
+        _voice = None
+        _voice_context = None
         event.Skip()
 
     def _bot_thread(self):

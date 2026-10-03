@@ -36,6 +36,13 @@ def run():
                 sound_count += 1
         frame.Close()
         app.ProcessPendingEvents()
+        context = prism.Context()
+        backend = context.create_best()
+        if backend:
+            result["speech_backend"] = backend.name
+            backend.stop()
+        del backend
+        del context
         result.update(ok=True, sounds=sound_count, dialogs=3, encryption="Windows DPAPI", game_requests=0,
                       resource_dir=str(RESOURCE_DIR), data_dir=str(DATA_DIR), speech_library="Prism loaded")
     except Exception as ex:
