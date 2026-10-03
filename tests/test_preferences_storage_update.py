@@ -102,7 +102,7 @@ class UpdaterTests(unittest.TestCase):
             command = prepare_install({"path": str(source), "sha256": hashlib.sha256(source.read_bytes()).hexdigest()},
                                       Path(folder) / "target.exe", parent_id=123, launch=False)
             script = (Path(folder) / "apply_update.ps1").read_text()
-            self.assertIn("Wait-Process -Id $ParentId", script)
+            self.assertIn("$process.WaitForExit()", script)
             self.assertIn(".previous", script)
             self.assertIn("-WindowStyle", command)
 

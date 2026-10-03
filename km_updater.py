@@ -89,18 +89,20 @@ def check_and_download(current=VERSION):
 APPLY_SCRIPT = r'''param([string]$Target,[string]$Source,[int]$ParentId,[string]$Expected)
 $ErrorActionPreference = 'Stop'
 try {
-    Wait-Process -Id $ParentId -ErrorAction SilentlyContinue
-    if ((Get-FileHash -LiteralPath $Source -Algorithm SHA256).Hash.ToLower() -ne $Expected) { throw 'Update checksum mismatch' }
+    try { $process = [Diagnostics.Process]::GetProcessById($ParentId); $process.WaitForExit() } catch [ArgumentException] { }
+    $hasher = [Security.Cryptography.SHA256]::Create()
+    try { $actual = [BitConverter]::ToString($hasher.ComputeHash([IO.File]::ReadAllBytes($Source))).Replace('-', '').ToLower() }
+    finally { $hasher.Dispose() }
+    if ($actual -ne $Expected) { throw 'Update checksum mismatch' }
     $newFile = $Target + '.new'
     $backup = $Target + '.previous'
-    Copy-Item -LiteralPath $Source -Destination $newFile -Force
-    Move-Item -LiteralPath $Target -Destination $backup -Force
-    try { Move-Item -LiteralPath $newFile -Destination $Target -Force }
-    catch { Move-Item -LiteralPath $backup -Destination $Target -Force; throw }
-    Start-Process -FilePath $Target
+    [IO.File]::Copy($Source, $newFile, $true)
+    [IO.File]::Replace($newFile, $Target, $backup, $true)
+    $start = [Diagnostics.ProcessStartInfo]::new($Target)
+    $start.UseShellExecute = $true
+    [void][Diagnostics.Process]::Start($start)
 } catch {
-    $_.Exception.Message | Out-File -LiteralPath (Join-Path (Split-Path $Source) 'update_error.log')
-    if (Test-Path -LiteralPath $Target) { Start-Process -FilePath $Target }
+    [IO.File]::WriteAllText([IO.Path]::Combine([IO.Path]::GetDirectoryName($Source), 'update_error.log'), $_.Exception.Message)
 }
 '''
 
