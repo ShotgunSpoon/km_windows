@@ -1,0 +1,184 @@
+[
+  {
+    "command": "dragon rock",
+    "response": {
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Alright. Where do you want to go? To the dragon's lair, to the mountain top? Or to the dragon's nest?"
+        }
+      ],
+      "reprompt": "Where do you want to go? To the dragon's lair, to the mountain top, or to the dragon's nest?",
+      "expects_number": false,
+      "should_end_session": false,
+      "intent_resolved": "dragon_rock"
+    }
+  },
+  {
+    "command": "mountain top",
+    "response": {
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Before Your knight even reaches the top of the mountain, the first gold pieces are already falling towards him. Arriving at the top, the amount of gold pieces leaves him awestruck. While Your knight wades through the waist-high sea of gold, he has to be careful not to slip off the edge of the plateau. The top of the mountain already reflects the sun so strongly as to be recognizable from an enormous distance. Do you also want to add some gold pieces to the pile?"
+        }
+      ],
+      "reprompt": "Would you like to put some gold here too?",
+      "expects_number": false,
+      "should_end_session": false,
+      "intent_resolved": "dragon_top"
+    }
+  },
+  {
+    "command": "yes",
+    "response": {
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "As you wish. How many gold pieces are you going to place here?"
+        }
+      ],
+      "reprompt": "How many gold pieces are you going to place here?",
+      "expects_number": true,
+      "should_end_session": false,
+      "intent_resolved": "AMAZON.YesIntent"
+    }
+  },
+  {
+    "command": "10",
+    "response": {
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Do you really want to drop 10 gold coins on the mountaintop?"
+        }
+      ],
+      "reprompt": "Are you sure you want to drop 10 gold coins on the mountaintop?",
+      "expects_number": false,
+      "should_end_session": false,
+      "intent_resolved": "number_only"
+    }
+  },
+  {
+    "command": "yes",
+    "response": {
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "As you wish."
+        },
+        {
+          "kind": "sfx",
+          "url": "https://skill.knight-manager.com/sounds/sound_coins.mp3"
+        },
+        {
+          "kind": "sfx",
+          "url": "https://skill.knight-manager.com/sounds/confirm.mp3"
+        },
+        {
+          "kind": "text",
+          "text": "roughly estimated, there should be at least 100,000,000 gold pieces here. I wonder if that will be enough to attract a dragon. Would you like to venture to the castle garden? Or should your knight stop by the Order Hall?"
+        }
+      ],
+      "reprompt": "Would you like to venture to the castle garden? Or shall he rather stop by the Order Hall?",
+      "expects_number": false,
+      "should_end_session": false,
+      "intent_resolved": "AMAZON.YesIntent"
+    }
+  },
+  {
+    "command": "dragon rock",
+    "response": {
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "No problem. Where do you want to go? To the dragon's lair, to the mountain top? Or to the dragon's nest?"
+        }
+      ],
+      "reprompt": "Where do you want to go? To the dragon's lair, to the mountain top, or to the dragon's nest?",
+      "expects_number": false,
+      "should_end_session": false,
+      "intent_resolved": "dragon_rock"
+    }
+  },
+  {
+    "command": "mountain top",
+    "response": {
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "As he ascends the stairs, some gold pieces roll towards Your knight. Arriving at the top, the amount of gold pieces leaves him awestruck. While Your knight wades through the waist-high sea of gold, he has to be careful not to slip off the edge of the plateau. The top of the mountain already reflects the sun so strongly as to be recognizable from an enormous distance. Do you also want to add some gold pieces to the pile?"
+        }
+      ],
+      "reprompt": "Would you like to put some gold here too?",
+      "expects_number": false,
+      "should_end_session": false,
+      "intent_resolved": "dragon_top"
+    }
+  },
+  {
+    "command": "yes",
+    "response": {
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Alright. How many gold pieces are you going to place here?"
+        }
+      ],
+      "reprompt": "How many gold pieces are you going to place here?",
+      "expects_number": true,
+      "should_end_session": false,
+      "intent_resolved": "AMAZON.YesIntent"
+    }
+  },
+  {
+    "command": "10",
+    "response": {
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Are you sure you want to drop 10 gold coins on the mountaintop?"
+        }
+      ],
+      "reprompt": "Do you really want to drop 10 gold coins on the mountaintop?",
+      "expects_number": false,
+      "should_end_session": false,
+      "intent_resolved": "number_only"
+    }
+  },
+  {
+    "command": "yes",
+    "response": {
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Alright."
+        },
+        {
+          "kind": "sfx",
+          "url": "https://skill.knight-manager.com/sounds/sound_coins.mp3"
+        },
+        {
+          "kind": "sfx",
+          "url": "https://skill.knight-manager.com/sounds/confirm.mp3"
+        },
+        {
+          "kind": "text",
+          "text": "roughly estimated, there should be at least 100,000,000 gold pieces here. I wonder if that will be enough to attract a dragon."
+        },
+        {
+          "kind": "voice",
+          "text": "This is a very bad idea."
+        },
+        {
+          "kind": "text",
+          "text": "Would you like to send your knight to the castle garden? Or shall he rather head for the Arrow Factory?"
+        }
+      ],
+      "reprompt": "Would you like to send your knight to the castle garden? Or shall he head for the Arrow Factory?",
+      "expects_number": false,
+      "should_end_session": false,
+      "intent_resolved": "AMAZON.YesIntent"
+    }
+  }
+]

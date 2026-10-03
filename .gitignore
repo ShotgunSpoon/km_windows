@@ -1,0 +1,15 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+build/
+dist/
+*.log
+km_state.json
+km_push_credentials.json
+*.dat
+probe_logs/
+apk/
+decompiled/
+web-bundle/
+assets/sound_cache/
+self-test-result.json

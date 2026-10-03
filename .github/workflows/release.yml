@@ -1,0 +1,26 @@
+name: Build and publish release
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: x64
+          cache: pip
+      - run: python -m pip install -r requirements-build.txt
+      - name: Test and build
+        shell: pwsh
+        run: .\build.ps1
+      - name: Publish release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = python -c "from km_version import VERSION; print(VERSION)"
+          gh release create "v$version" dist/km_windows.exe dist/km_windows.exe.sha256 --title "Knight Manager Windows $version" --generate-notes --target "${{ github.sha }}"

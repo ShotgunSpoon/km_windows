@@ -1,0 +1,8 @@
+wxPython==4.2.4
+prismatoid==0.18.2
+pygame==2.6.1
+av==17.1.0
+aiohttp==3.13.3
+cryptography==46.0.3
+http-ece==1.1.0
+numpy==1.26.4
