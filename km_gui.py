@@ -24,7 +24,7 @@ from km_version import VERSION
 
 try:
     import prism
-    _voice = prism.Context().create_best()
+    _voice = None if "--self-test" in sys.argv or os.environ.get("KM_SELF_TEST") == "1" else prism.Context().create_best()
 except Exception:            # no screen reader / prism missing: the window still works
     _voice = None
 
@@ -63,7 +63,8 @@ class KMFrame(wx.Frame):
         self.q = queue.Queue()
         self.quick = []
         self.last_reply = ""
-        threading.Thread(target=self._worker, daemon=True).start()
+        self.worker = threading.Thread(target=self._worker, daemon=True)
+        self.worker.start()
 
         panel = wx.Panel(self)
         root = wx.BoxSizer(wx.VERTICAL)
@@ -380,9 +381,17 @@ class KMFrame(wx.Frame):
             speak("Stopping the bot and saving progress before closing.")
             event.Veto()
             return
+        if self.q.unfinished_tasks and event.CanVeto():
+            event.Veto()
+            wx.CallLater(500, self.Close)
+            return
         self.closing = True
         self.notifications.close()
+        if self.notifications.thread:
+            self.notifications.thread.join(35)
         self.audio.close()
+        self.q.put(None)
+        self.worker.join(1)
         event.Skip()
 
     def _bot_thread(self):
@@ -428,6 +437,9 @@ class KMFrame(wx.Frame):
     def _worker(self):
         while True:
             job = self.q.get()
+            if job is None:
+                self.q.task_done()
+                return
             try:
                 kind = job[0]
                 if kind == "login":

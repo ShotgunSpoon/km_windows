@@ -56,6 +56,8 @@ class GameAudio:
 
     def close(self):
         self.closed.set()
+        if self.thread is not threading.current_thread():
+            self.thread.join(25)
 
     def _path(self, source):
         parsed = urllib.parse.urlparse(source)
