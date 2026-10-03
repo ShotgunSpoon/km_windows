@@ -284,7 +284,7 @@ class KMFrame(wx.Frame):
         route = self.preferences.route(category=category(payload) or "other")
         if route["log"]:
             self.add_log("Notification", text)
-            self.notification_history = (self.notification_history + [text])[-100]
+            self.notification_history = (self.notification_history + [text])[-100:]
             write_json(self.km.store.directory(self.km.account_id) / "notification_history.json", self.notification_history)
         if route["speech"]: speak(text, interrupt=False)
         if route["sound"]: self.audio.play(sound, channel="notification")

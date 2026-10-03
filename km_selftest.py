@@ -28,6 +28,9 @@ def run():
         dialogs = [PreferencesDialog(frame), NotificationDialog(frame), AccountsDialog(frame)]
         assert len(frame.GetMenuBar().GetMenu(0).GetMenuItems()) == 5
         for dialog in dialogs: dialog.Destroy()
+        frame.preferences.values["notifications"].update(log=True, speech=False, sound=False, toast=False)
+        frame._notification({"title": "Offline self-test", "body": "Notification history check"}, None)
+        assert frame.notification_history[-1] == "Offline self-test: Notification history check"
         sound_count = 0
         for path in (RESOURCE_DIR / "assets" / "sounds").iterdir():
             if path.suffix in (".wav", ".mp3", ".m4a"):
